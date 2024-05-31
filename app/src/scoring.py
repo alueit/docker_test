@@ -17,7 +17,8 @@ model.load_model('./models/model_cb.cbm')
 
 def make_pred(dt, path_to_file, path_to_figs):
     print('Importing pretrained model...')
-    preds = (model.predict_proba(dt)[:, 1] > 0.5) * 1
+    preds_proba = model.predict_proba(dt)[:, 1]
+    preds = (preds_proba > 0.5) * 1
 
     submission = pd.DataFrame({
         'client_id':  pd.read_csv(path_to_file)['client_id'],
@@ -26,7 +27,7 @@ def make_pred(dt, path_to_file, path_to_figs):
     
     print('Prediction complete!')
 
-    plot_vals = plt.hist(preds)
+    plot_vals = plt.hist(preds_proba)
     plt.title("Распределение предсказаний")
 
     plt.text(0, plot_vals[0][0], s=f"{plot_vals[0][0]:0.0f}")
@@ -37,7 +38,7 @@ def make_pred(dt, path_to_file, path_to_figs):
 
     feature_importance = zip(feature_select, model.get_feature_importance().round(1))
     feature_importance = dict(sorted(feature_importance, key=lambda kv: -kv[1])[:5])
-    
+
     with open(path_to_figs.replace('csv', "json"), 'w+', encoding= 'utf-8') as f:
         json.dump(feature_importance, f)
     print('Feature importance obtained!')
