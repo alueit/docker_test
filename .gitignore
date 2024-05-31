@@ -1,0 +1,6 @@
+.env
+app/input/*
+app/output/*
+app/data/*
+app/__pycache__/*
+app/src/__pycache__/*
