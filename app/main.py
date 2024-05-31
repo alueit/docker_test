@@ -29,7 +29,7 @@ def generate_page(html: str):
 <head>
   <title>Churn Prediction</title>
 </head>
-<body>
+<body bgcolor="#A0BEC4">
 <h1>Анализ оттока абонентов</h1>
 
 <h3>Загрузить файл в формате .csv</h1>
